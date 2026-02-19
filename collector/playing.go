@@ -75,7 +75,7 @@ func NewPlayingCollector(logger *slog.Logger) (Collector, error) {
 		prometheus.BuildFQName(namespace, subsystem, "state"),
 		"Jellyfin currently playing sessions.",
 		[]string{
-			"user_id", "username", "device", "type", "title", "series_title", "series_season", "series_episode", "method",
+			"user_id", "username", "device", "client", "type", "title", "series_title", "series_season", "series_episode", "method",
 		}, nil,
 	)
 	return &playingCollector{
@@ -143,6 +143,7 @@ func (c *playingCollector) Update(ch chan<- prometheus.Metric) error {
 			session.UserId,
 			session.UserName,
 			session.DeviceName,
+			session.Client,
 			mediaType,
 			title,
 			seriesTitle,
